@@ -84,7 +84,7 @@
     };
 
     //function to send request. This is marked as async since we will use await.
-    const requestUpdate = async (userForm) => {
+    const requestInfo = async (userForm) => {
       
       //Grab the url and method from the html form below
       const url = userForm.querySelector('#urlField').value;
@@ -109,7 +109,7 @@
       //function to handle our request & cancel the built in html form action
       const getUsers = (e) => {
         e.preventDefault();
-        requestUpdate(userForm);
+        requestInfo(userForm);
         return false;
       }
       
