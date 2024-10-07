@@ -49,6 +49,8 @@ const onRequest = (request, response) => {
   const protocol = request.connection.encrypted ? 'https' : 'http';
   const parsedUrl = new URL(request.url, `${protocol}://${request.headers.host}`);
 
+  request.query = Object.fromEntries(parsedUrl.searchParams);
+
   // check if method was POST, otherwise check URLstruct for path.
   if (request.method === 'POST') {
     return handlePost(request, response, parsedUrl);
