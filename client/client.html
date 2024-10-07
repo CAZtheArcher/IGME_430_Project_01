@@ -134,7 +134,7 @@
 </head>
 <body>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
+    <h3>Homemade Pokemon API</h3>
     <form id="nameForm" action="/addUser" method="post">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
@@ -144,8 +144,10 @@
     </form>
     <form id="userForm" action="/getUsers" method="get">
       <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
+        <option value='/getAll'>Get All</option>
+        <option value='/getByName'>Search By Name</option>
+        <option value='/getByType'>Search By Type</option>
+        <option value='/getByWeakness'>Search By Weakness</option>
       </select>
       <select id="methodSelect">
         <option value="get">GET</option>

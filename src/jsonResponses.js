@@ -2,6 +2,7 @@ const fs = require('fs'); // pull in the file system module
 
 const dataset = JSON.parse(fs.readFileSync(`${__dirname}/../assets/jsonDatasets/pokedex.json`));
 
+// Get Request Response
 const respondJSON = (request, response, status, object) => {
   const content = JSON.stringify(object);
   response.writeHead(status, {
@@ -16,13 +17,16 @@ const respondJSON = (request, response, status, object) => {
   response.end();
 };
 
+// Get Requests
+
 const getAll = (request, response) => {
   respondJSON(request, response, 200, dataset);
 };
 
 const getByName = (request, response) => {
-  const name = request.headers.get('Pokemon-Name');
-  const content = dataset.filter((x) => x.name.toUpperCase() === name.toUpperCase());
+  let name = request.headers.get('Pokemon-Name');
+  name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  const content = dataset.filter((x) => x.name === name);
   respondJSON(request, response, 200, content);
 };
 
@@ -51,6 +55,8 @@ const notFound = (request, response) => {
   // return a 404 with an error message
   respondJSON(request, response, 404, responseJSON);
 };
+
+// Post Requests
 
 // set out public exports
 module.exports = {
