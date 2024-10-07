@@ -20,73 +20,24 @@ const getAll = (request, response) => {
   respondJSON(request, response, 200, dataset);
 };
 
-const getByName = (request, response, status, name) => {
-  const arrayLength = dataset.length;
-  let content = '';
-  for (let i = 0; i < arrayLength; i++) {
-    if (dataset[i].name.toUpperCase() === name.toUpperCase()) {
-      content += JSON.stringify(dataset[i]);
-    }
-  }
-  response.writeHead(status, {
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(content, 'utf8'),
-  });
-
-  // HEAD requests don't get a body with their response.
-  // Similarly, 204 status codes are "no content" responses
-  // so they also do not get a response body.
-  if (request.method !== 'HEAD' && status !== 204) {
-    response.write(content);
-  }
-
-  response.end();
+const getByName = (request, response) => {
+  let name = request.headers.get('Pokemon-Name');
+  let content = dataset.filter(x => x.name.toUpperCase() === name.toUpperCase());
+  respondJSON(request, response, 200, content);
 };
 
-const getByType = (request, response, status, type) => {
-  const arrayLength = dataset.length;
-  let content = '';
-  for (let i = 0; i < arrayLength; i++) {
-    if (dataset[i].name.toUpperCase() === type.toUpperCase()) {
-      content += JSON.stringify(dataset[i]);
-    }
-  }
-  response.writeHead(status, {
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(content, 'utf8'),
-  });
-
-  // HEAD requests don't get a body with their response.
-  // Similarly, 204 status codes are "no content" responses
-  // so they also do not get a response body.
-  if (request.method !== 'HEAD' && status !== 204) {
-    response.write(content);
-  }
-
-  response.end();
+const getByType = (request, response) => {
+  let type = request.headers.get('Pokemon-Type');
+  type = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+  let content = dataset.filter(x => x.type.includes(type));
+  respondJSON(request, response, 200, content);
 };
 
-const getByWeakness = (request, response, status, weakness) => {
-  const arrayLength = dataset.length;
-  let content = '';
-  for (let i = 0; i < arrayLength; i++) {
-    if (dataset[i].name.toUpperCase() === weakness.toUpperCase()) {
-      content += JSON.stringify(dataset[i]);
-    }
-  }
-  response.writeHead(status, {
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(content, 'utf8'),
-  });
-
-  // HEAD requests don't get a body with their response.
-  // Similarly, 204 status codes are "no content" responses
-  // so they also do not get a response body.
-  if (request.method !== 'HEAD' && status !== 204) {
-    response.write(content);
-  }
-
-  response.end();
+const getByWeakness = (request, response) => {
+  let weakness = request.headers.get('Pokemon-Weakness');
+  weakness = weakness.charAt(0).toUpperCase() + weakness.slice(1).toLowerCase();
+  let content = dataset.filter(x => x.weakness.includes(weakness));
+  respondJSON(request, response, 200, content);
 };
 
 // function for 404 not found requests with message
