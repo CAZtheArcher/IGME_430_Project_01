@@ -21,22 +21,22 @@ const getAll = (request, response) => {
 };
 
 const getByName = (request, response) => {
-  let name = request.headers.get('Pokemon-Name');
-  let content = dataset.filter(x => x.name.toUpperCase() === name.toUpperCase());
+  const name = request.headers.get('Pokemon-Name');
+  const content = dataset.filter((x) => x.name.toUpperCase() === name.toUpperCase());
   respondJSON(request, response, 200, content);
 };
 
 const getByType = (request, response) => {
   let type = request.headers.get('Pokemon-Type');
   type = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
-  let content = dataset.filter(x => x.type.includes(type));
+  const content = dataset.filter((x) => x.type.includes(type));
   respondJSON(request, response, 200, content);
 };
 
 const getByWeakness = (request, response) => {
   let weakness = request.headers.get('Pokemon-Weakness');
   weakness = weakness.charAt(0).toUpperCase() + weakness.slice(1).toLowerCase();
-  let content = dataset.filter(x => x.weakness.includes(weakness));
+  const content = dataset.filter((x) => x.weakness.includes(weakness));
   respondJSON(request, response, 200, content);
 };
 
