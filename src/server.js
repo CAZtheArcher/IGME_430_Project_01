@@ -12,6 +12,8 @@ const urlStruct = {
   '/getByName': jsonHandler.getByName,
   '/getByType': jsonHandler.getByType,
   '/getByWeakness': jsonHandler.getByWeakness,
+  '/addMon': jsonHandler.addPokemon,
+  '/editMon': jsonHandler.editPokemon,
   notFound: jsonHandler.notFound,
 };
 

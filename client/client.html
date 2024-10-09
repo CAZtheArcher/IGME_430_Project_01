@@ -104,29 +104,29 @@
 
     const init = () => {
       //grab form
-      const userForm = document.querySelector('#userForm');
+      const getByForm = document.querySelector('#getByForm');
       
       //function to handle our request & cancel the built in html form action
       const getUsers = (e) => {
         e.preventDefault();
-        requestInfo(userForm);
+        requestInfo(getByForm);
         return false;
       }
       
       //add event listener
-      userForm.addEventListener('submit', getUsers);
+      getByForm.addEventListener('submit', getUsers);
 
       //Grab the form
-      const nameForm = document.querySelector('#nameForm');
+      const newMonForm = document.querySelector('#newMonForm');
       //function to handle form submission
       const addUser = (e) => {
         e.preventDefault();
-        sendPost(nameForm);
+        sendPost(newMonForm);
         return false;
       }
       
       //Call addUser when the submit event fires on the form.
-      nameForm.addEventListener('submit', addUser);
+      newMonForm.addEventListener('submit', addUser);
     };
 
     window.onload = init;
@@ -135,14 +135,16 @@
 <body>
   <section id="top">
     <h3>Homemade Pokemon API</h3>
-    <form id="nameForm" action="/addUser" method="post">
+    <form id="newMonForm" action="/addMon" method="post">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
+      <label for="type">Type: </label>
+      <input id="typeField" type="text" name="name" />
+      <label for="weakness">Weakness: </label>
+      <input id="weaknessField" type="text" name="name" />
       <input type="submit" value="Add User" />
     </form>
-    <form id="userForm" action="/getUsers" method="get">
+    <form id="getByForm" action="/getUsers" method="get">
       <select id='urlField'>
         <option value='/getAll'>Get All</option>
         <option value='/getByName'>Search By Name</option>
