@@ -136,11 +136,8 @@ const addPokemon = async (request, response) => { // default json message
       responseJSON.message = 'Type is invalid. input a valid pokemon typing';
       return respondJSON(request, response, 400, responseJSON);
     }
-    for(let i=0; i < getWeak.damage_relations.half_damage_from.length(); i++){
-      weaknessess.push(getWeak.damage_relations.half_damage_from[i].name);
-    }
-    for(let i=0; i < getWeak.damage_relations.no_damage_from.length(); i++){
-      weaknessess.push(getWeak.damage_relations.no_damage_from[i].name);
+    for(let i=0; i < getWeak.damage_relations.double_damage_from.length(); i++){
+      weaknessess.push(getWeak.damage_relations.double_damage_from[i].name);
     }
   }
 
