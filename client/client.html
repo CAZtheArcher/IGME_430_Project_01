@@ -89,6 +89,24 @@
       //Grab the url and method from the html form below
       const url = userForm.querySelector('#urlField').value;
       const method = userForm.querySelector('#methodSelect').value;
+
+      console.log(url);
+
+      switch(url){
+        case "getByName":
+          url += "?name=" + document.querySelector('#getByNameInput').value.toLowerCase();
+          break;
+        case "getByType":
+          url += "?type=" + document.querySelector('#getByTypeInput').value.toLowerCase();
+          break;
+        case "getByWeakness":
+          url += "?weakness=" + document.querySelector('#getByWeakInput').value.toLowerCase();
+          break;
+        default:
+          break;
+      }
+
+      console.log(url);
       
       //Await our fetch response. Go to the URL, use the right method, and attach the headers.
       let response = await fetch(url, {
@@ -139,17 +157,17 @@
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
       <label for="type">Type: </label>
-      <input id="typeField" type="text" name="name" />
+      <input id="typeField" type="text" name="type" />
       <label for="weakness">Weakness: </label>
-      <input id="weaknessField" type="text" name="name" />
+      <input id="weaknessField" type="text" name="weakness" />
       <input type="submit" value="Add User" />
     </form>
-    <form id="getByForm" action="/getUsers" method="get">
+    <form id="getByForm" action="/" method="get">
       <select id='urlField'>
         <option value='/getAll'>Get All</option>
-        <option value='/getByName'>Search By Name</option>
-        <option value='/getByType'>Search By Type</option>
-        <option value='/getByWeakness'>Search By Weakness</option>
+        <option value='/getByName'>Search By Name: <input id ="getByNameInput" type="text" /></option>
+        <option value='/getByType'>Search By Type: <input id ="getByTypeInput" type="text" /></option>
+        <option value='/getByWeakness'>Search By Weakness: <input id ="getByWeakInput" type="text" /></option>
       </select>
       <select id="methodSelect">
         <option value="get">GET</option>
