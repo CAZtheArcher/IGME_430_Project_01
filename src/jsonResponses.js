@@ -175,7 +175,7 @@ const editPokemon = (request, response) => {
   // If either are missing, send back an error message as a 400 badRequest
   if (!name || !type || !weight || !height) {
     responseJSON.id = 'missingParams';
-    responseJSON.message = 'missing parameters. double check that the name, type, weight, and height feilds are all filled out';
+    responseJSON.message = 'You are missing parameters. Double check that the name, type, weight, and height fields are all filled out';
     return respondJSON(request, response, 400, responseJSON);
   }
   if (filteredDataset.length() === 0) {
