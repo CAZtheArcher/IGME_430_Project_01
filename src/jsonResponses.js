@@ -175,21 +175,25 @@ const editPokemon = (request, response) => {
     message: 'the name of the Pokemon is required.',
   };
 
-  // grab name and age out of request.body for convenience
-  // If either name or age do not exist in the request,
-  // they will be set to undefined
-  const { name, type, weight, height } = request.body;
+  const name = request.query.name;
+  const type = request.query.type.split(",");
+  const weight = request.query.weight;
+  const height = request.query.height;
+  //fix up name/ types
   const fixedName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-  const fixedType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+  const fixedType = [];
+  for(let i=o; i < type.length(); i ++){
+    fixedType.push(type[i].charAt(0).toUpperCase() + type.slice(1).toLowerCase());
+  }
   const filteredDataset = dataset.filter((x) => x.name === fixedName);
 
   // check to make sure we have both fields
   // We might want more validation than just checking if they exist
   // This could easily be abused with invalid types (such as booleans, numbers, etc)
   // If either are missing, send back an error message as a 400 badRequest
-  if (!name || !type || !weight || !height) {
-    responseJSON.id = 'missingParams';
-    responseJSON.message = 'You are missing parameters. Double check that the name, type, weight, and height fields are all filled out';
+  if (!name) {
+    responseJSON.id = 'missingParam';
+    responseJSON.message = 'You are missing the name parameter. Double check that the name field is filled out';
     return respondJSON(request, response, 400, responseJSON);
   }
   if (filteredDataset.length() === 0) {
@@ -201,11 +205,16 @@ const editPokemon = (request, response) => {
   // default status code to 204 updated
   const responseCode = 204;
 
-  // add or update fields for this pokemon name
-  filteredDataset[0].type = fixedType;
-  filteredDataset[0].weakness = fixedWeakness;
-  filteredDataset[0].weight = weight + " kg";
-  filteredDataset[0].height = height + " m";
+  //update fields for this pokemon name
+  if(type){
+    filteredDataset[0].type = fixedType;
+  }
+  if(weight){
+    filteredDataset[0].weight = weight + " kg";
+  }
+  if(height){
+    filteredDataset[0].height = height + " m";
+  }
 
   // When we send back a 204 status code, it will not send response
   // body. However, if we didn't pass in an object as the 4th param
