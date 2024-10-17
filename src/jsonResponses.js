@@ -134,8 +134,8 @@ const addPokemon = async (request, response) => { // default json message
     num: (dataset.length + 1).toString(),
     img: imageURL,
     type: type,
-    height: height + "m",
-    weight: weight + "kg", 
+    height: height + " m",
+    weight: weight + " kg", 
     weakness: weaknessess,
   }
 
