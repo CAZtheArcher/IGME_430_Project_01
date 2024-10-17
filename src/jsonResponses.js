@@ -76,7 +76,7 @@ const notFound = (request, response) => {
 
 // Post Requests
 
-const addPokemon = (request, response) => { // default json message
+const addPokemon = async (request, response) => { // default json message
   const responseJSON = {
     message: 'Name, type, and weakness are all required.',
   };
@@ -99,20 +99,41 @@ const addPokemon = (request, response) => { // default json message
   let responseCode = 204;
 
   const filteredDataset = dataset.filter((x) => x.name === name);
-
-  // If the user doesn't exist yet
-  if (filteredDataset.length() === 0) {
-    // Set the status code to 201 (created) and create an empty user
-    responseCode = 201;
-    filteredDataset[0].name = {
-      name,
-    };
+  let imageURL;
+  let monExists = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
+  let obj = await monExists.json();
+  let monExistsString = JSON.stringify(obj);
+  if(monExistsString != "Not Found"){
+    let idString = monExists.id.toString();
+    if(idString.length < 3){
+      if(idString.length > 1){
+        idString = "0" + idString;
+      }else{
+        idString = "00" + idString;
+      }
+    }
+    imageURL = "http://www.serebii.net/pokemongo/pokemon/" + idString + ".png";
+  } else{
+    imageURL = "";
   }
 
-  // add or update fields for this user name
+  let getWeak = await fetch('https://pokeapi.co/api/v2/type/' + type);
+  let weaknessess = [];
+  for(let i=0; i < getWeak.damage_relations.half_damage_from.length(); i++){
+    weaknessess.push(getWeak.damage_relations.half_damage_from[i].name);
+  }
+  for(let i=0; i < getWeak.damage_relations.no_damage_from.length(); i++){
+    weaknessess.push(getWeak.damage_relations.no_damage_from[i].name);
+  }
 
-  filteredDataset[0].type = type;
-  filteredDataset[0].weakness = weakness;
+  const newMon = {
+    id: dataset.length + 1,
+    num: (dataset.length + 1).toString(),
+    img: imageURL,
+    type: type,
+  }
+
+  dataset.push(newMon);
 
   // if response is created, then set our created message
   // and sent response with a message
