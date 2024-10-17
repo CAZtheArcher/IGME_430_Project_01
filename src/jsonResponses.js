@@ -78,18 +78,18 @@ const notFound = (request, response) => {
 
 const addPokemon = async (request, response) => { // default json message
   const responseJSON = {
-    message: 'Name, type, and weakness are all required.',
+    message: 'Name, type, height and weight are all required.',
   };
 
-  // grab name and age out of request.body for convenience
-  // If either name or age do not exist in the request,
+  // grab parameters out of query for convenience
+  // If any do not exist in the request,
   // they will be set to undefined
   const name = request.query.name;
-  const type = request.query.type;
+  const type = request.query.type.split(",");
   const weight = request.query.weight;
   const height = request.query.height;
 
-  // check to make sure we have both fields
+  // check to make sure we have all fields
   // We might want more validation than just checking if they exist
   // This could easily be abused with invalid types (such as booleans, numbers, etc)
   // If either are missing, send back an error message as a 400 badRequest
@@ -100,7 +100,7 @@ const addPokemon = async (request, response) => { // default json message
 
   // default status code to 204 updated
   let responseCode = 204;
-
+  //filter through dataset by pokemon's name
   const filteredDataset = dataset.filter((x) => x.name === name);
   if(filteredDataset.length() != 0){
     return editPokemon(request, response); //if mon is already in dataset, edit that one instead.
@@ -123,14 +123,25 @@ const addPokemon = async (request, response) => { // default json message
   } else{
     imageURL = `${__dirname}/../assets/images/image-not-found.png`;
   }
-
-  let getWeak = await fetch('https://pokeapi.co/api/v2/type/' + type);
+  //placeholder for weaknessess
   let weaknessess = [];
-  for(let i=0; i < getWeak.damage_relations.half_damage_from.length(); i++){
-    weaknessess.push(getWeak.damage_relations.half_damage_from[i].name);
-  }
-  for(let i=0; i < getWeak.damage_relations.no_damage_from.length(); i++){
-    weaknessess.push(getWeak.damage_relations.no_damage_from[i].name);
+  //for each type
+  for(let i = 0; i < type.length(); i++){
+    //get the weaknesses based off of type input
+    let getWeak = await fetch('https://pokeapi.co/api/v2/type/' + type);
+    //if type doesn't exist
+    if (await Json.stringify(getWeak.json()) === "Not Found") {
+      //respond with error
+      responseJSON.id = 'invalidType';
+      responseJSON.message = 'Type is invalid. input a valid pokemon typing';
+      return respondJSON(request, response, 400, responseJSON);
+    }
+    for(let i=0; i < getWeak.damage_relations.half_damage_from.length(); i++){
+      weaknessess.push(getWeak.damage_relations.half_damage_from[i].name);
+    }
+    for(let i=0; i < getWeak.damage_relations.no_damage_from.length(); i++){
+      weaknessess.push(getWeak.damage_relations.no_damage_from[i].name);
+    }
   }
 
   const newMon = {
