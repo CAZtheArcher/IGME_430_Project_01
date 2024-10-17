@@ -84,7 +84,7 @@ const addPokemon = async (request, response) => { // default json message
   // grab name and age out of request.body for convenience
   // If either name or age do not exist in the request,
   // they will be set to undefined
-  const { name, type, weakness } = request.body;
+  const { name, type, height, weight } = request.body;
 
   // check to make sure we have both fields
   // We might want more validation than just checking if they exist
@@ -131,6 +131,9 @@ const addPokemon = async (request, response) => { // default json message
     num: (dataset.length + 1).toString(),
     img: imageURL,
     type: type,
+    height: height + "m",
+    weight: weight + "kg", 
+    weakness: weaknessess,
   }
 
   dataset.push(newMon);
