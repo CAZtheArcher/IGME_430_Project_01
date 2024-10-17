@@ -55,16 +55,18 @@
       }
     };
     
-    const sendPost = async (nameForm) => {
+    const sendPost = async (monForm) => {
       //Grab all the info from the form
-      const url = nameForm.getAttribute('action');
-      const method = nameForm.getAttribute('method');
+      const url = monForm.getAttribute('action');
+      const method = monForm.getAttribute('method');
       
-      const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
+      const nameField = monForm.querySelector('#nameField');
+      const typeField = monForm.querySelector('#typeField');
+      const weightField = monForm.querySelector('#weightField');
+      const heightField = monForm.querySelector('#heightField');
 
       //Build a data string in the FORM-URLENCODED format.
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
+      const formData = `name=${nameField.value}&type=${typeField.value}&weight=${weightField.value}&height=${heightField.value}`;
 
       //Make a fetch request and await a response. Set the method to
       //the one provided by the form (POST). Set the headers. Content-Type
@@ -179,9 +181,9 @@
       <label for="type">Type(s): </label>
       <input id="typeField" type="text" name="type" />
       <label for="type">(Separate types with a ", ")</label>
-      <label for="height">Height: </label>
+      <label for="height">Height in Meters: </label>
       <input id="heightField" type="text" name="height" />
-      <label for="weight">Weight: </label>
+      <label for="weight">Weight in Kilograms: </label>
       <input id="weightField" type="text" name="weight" />
     </form>
     <form id="getByForm" action="/" method="get">
