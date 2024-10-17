@@ -172,7 +172,7 @@ const addPokemon = async (request, response) => { // default json message
 
 const editPokemon = (request, response) => {
   const responseJSON = {
-    message: 'the name of the Pokemon is required.',
+    message: 'You are missing the name parameter. Double check that the name field is properly filled out.',
   };
 
   const name = request.query.name;
@@ -193,7 +193,6 @@ const editPokemon = (request, response) => {
   // If either are missing, send back an error message as a 400 badRequest
   if (!name) {
     responseJSON.id = 'missingParam';
-    responseJSON.message = 'You are missing the name parameter. Double check that the name field is filled out';
     return respondJSON(request, response, 400, responseJSON);
   }
   if (filteredDataset.length() === 0) {
