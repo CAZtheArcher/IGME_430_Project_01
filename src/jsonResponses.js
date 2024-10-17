@@ -84,13 +84,16 @@ const addPokemon = async (request, response) => { // default json message
   // grab name and age out of request.body for convenience
   // If either name or age do not exist in the request,
   // they will be set to undefined
-  const { name, type, weight, height } = request.body;
+  const name = request.query.name;
+  const type = request.query.type;
+  const weight = request.query.weight;
+  const height = request.query.height;
 
   // check to make sure we have both fields
   // We might want more validation than just checking if they exist
   // This could easily be abused with invalid types (such as booleans, numbers, etc)
   // If either are missing, send back an error message as a 400 badRequest
-  if (!name || !type || !weakness) {
+  if (!name || !type || !weight || !height ) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
