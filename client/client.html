@@ -133,6 +133,26 @@
       
       //add event listener
       getByForm.addEventListener('submit', getUsers);
+      getByForm.addEventListener('input', (event) => {
+        const inputSection = document.querySelector('#userInputGet');
+        switch(event.target.value){
+          case "/getAll":
+            inputSection = "";
+            break;
+          case "/getByName":
+            inputSection = "<input id =\"getByNameInput\" type=\"text\" />";
+            break;
+          case "/getByType":
+            inputSection = "<input id =\"getByTypeInput\" type=\"text\" />";
+            break;
+          case "/getByWeakness":
+            inputSection = "<input id =\"getByWeakInput\" type=\"text\" />";
+            break;
+          default:
+          console.log("Error: impossible to reach here.");
+            break;
+        }
+      });
 
       //Grab the form
       const newMonForm = document.querySelector('#newMonForm');
@@ -165,16 +185,18 @@
     <form id="getByForm" action="/" method="get">
       <select id='urlField'>
         <option value='/getAll'>Get All</option>
-        <option value='/getByName'>Search By Name: <input id ="getByNameInput" type="text" /></option>
-        <option value='/getByType'>Search By Type: <input id ="getByTypeInput" type="text" /></option>
-        <option value='/getByWeakness'>Search By Weakness: <input id ="getByWeakInput" type="text" /></option>
+        <option value='/getByName'>Search By Name</option>
+        <option value='/getByType'>Search By Type</option>
+        <option value='/getByWeakness'>Search By Weakness</option>
       </select>
       <select id="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
-      <input type="submit" value="Get User" />
+      <input type="submit" value="GetByForm" />
     </form>
+    <section id="userInputGet">
+    </section>
   </section>
   <section id="content">
   </section>
